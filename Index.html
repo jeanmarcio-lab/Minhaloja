@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Minha Loja</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#fbf8f3;--sf:#fff;--tx:#1f1b16;--mt:#6f665b;--ac:#e4572e;--ac2:#fff;--bd:#e8e0d4;--ok:#1f9d55;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17140f;--sf:#221e17;--tx:#f3ede3;--mt:#a39a8b;--bd:#383126}}
+:root[data-theme="dark"]{--bg:#17140f;--sf:#221e17;--tx:#f3ede3;--mt:#a39a8b;--bd:#383126}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.4}
+button,input,select{font:inherit;color:inherit}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:var(--bg);border-bottom:1px solid var(--bd)}
+.logo{font-weight:800;font-size:20px}.logo span{color:var(--ac)}
+.cartbtn{position:relative;border:0;background:var(--ac);color:var(--ac2);padding:10px 16px;border-radius:999px;cursor:pointer;font-weight:600;transition:transform .15s}
+.cartbtn:active{transform:scale(.94)}.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.25)}}
+#cnt{background:var(--ac2);color:var(--ac);border-radius:99px;padding:1px 7px;margin-left:6px;font-size:13px}
+.hero{padding:28px 18px 8px;animation:up .6s both}.hero h1{margin:0 0 6px;font-size:28px}.hero p{margin:0;color:var(--mt)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;padding:18px;max-width:1000px;margin:auto}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:14px;cursor:pointer;transition:transform .2s,box-shadow .2s;animation:up .5s both}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 28px #0002}
+.card .em{font-size:56px;text-align:center;padding:14px 0;transition:transform .3s}.card:hover .em{transform:scale(1.15) rotate(-6deg)}
+.card h3{margin:4px 0;font-size:15px}.price{font-weight:700;color:var(--ac)}
+.ov{position:fixed;inset:0;background:#0007;display:none;z-index:20;align-items:center;justify-content:center;height:100vh;height:100dvh}
+.ov.on{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.sheet{background:var(--sf);width:calc(100% - 20px);max-width:520px;max-height:84vh;max-height:84dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:22px;padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));animation:slide .3s}
+@keyframes slide{from{transform:translateY(60px);opacity:0}}
+
+.x{float:right;border:0;background:var(--bd);width:34px;height:34px;border-radius:50%;cursor:pointer}
+.big{font-size:80px;text-align:center}.pimg{width:100%;max-height:240px;object-fit:contain;border-radius:14px}.cimg{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.chip{border:1.5px solid var(--bd);background:transparent;border-radius:999px;padding:8px 14px;cursor:pointer;transition:.15s}
+.chip.on{background:var(--ac);color:var(--ac2);border-color:var(--ac);transform:scale(1.05)}
+.btn{width:100%;border:0;background:var(--ac);color:var(--ac2);padding:14px;border-radius:14px;font-weight:700;cursor:pointer;margin-top:10px;transition:transform .15s}
+.btn:active{transform:scale(.97)}.btn.alt{background:var(--bd);color:var(--tx)}
+.qty{display:inline-flex;align-items:center;gap:10px}.qty button{width:30px;height:30px;border-radius:50%;border:1px solid var(--bd);background:var(--sf);cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.row small{color:var(--mt)}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:18px;margin-top:14px}
+input,select{width:100%;padding:12px;border:1.5px solid var(--bd);border-radius:12px;background:var(--bg);margin:4px 0 10px}
+input:focus{outline:2px solid var(--ac);border-color:transparent}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:13px;color:var(--mt)}
+.opt{display:flex;gap:10px;align-items:center;border:1.5px solid var(--bd);border-radius:14px;padding:12px;margin:8px 0;cursor:pointer;transition:.15s}
+.opt.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 10%,transparent)}
+.steps{display:flex;gap:6px;margin:6px 0 16px}.steps i{flex:1;height:5px;border-radius:9px;background:var(--bd);transition:.3s}.steps i.on{background:var(--ac)}
+.pix{text-align:center}#qr{display:inline-block;padding:12px;background:#fff;border-radius:14px;margin:10px 0}
+.code{font-size:11px;word-break:break-all;background:var(--bg);border:1px dashed var(--bd);border-radius:10px;padding:10px;text-align:left;max-height:80px;overflow:auto}
+.done{text-align:center}.done .big{animation:pop .6s}@keyframes pop{from{transform:scale(0)}60%{transform:scale(1.3)}}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,80px);background:var(--tx);color:var(--bg);padding:12px 20px;border-radius:999px;z-index:50;transition:transform .3s;pointer-events:none}
+#toast.on{transform:translate(-50%,0)}
+.btn,.chip,.opt,.card,.cartbtn,.qty button,.x{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+</style>
+</head>
+<body>
+<header><div class="logo">Minha<span>Loja</span></div><button class="cartbtn" id="cb" onclick="openCart()">🛒 Carrinho<span id="cnt">0</span></button></header>
+<div class="hero"><h1>Achados que você vai amar ✨</h1><p>Toque em um produto, escolha as opções e pague por Pix.</p></div>
+<div class="grid" id="grid"></div>
+<div class="ov" id="ov" onclick="if(event.target===this)closeOv()"><div class="sheet" id="sh"></div></div>
+<div id="toast"></div>
+<script>
+// ===== EDITE AQUI =====
+var PIX_KEY="58e9a7aa-57a3-48b9-a8fb-46205c7812c3", PIX_NAME="MINHA LOJA", PIX_CITY="SAO PAULO";
+var PRODUCTS=[
+{id:1,n:"Máquina de Cortar Cabelo Profissional UltraMax ULT-828",e:"💈",img:"",p:50,d:"Máquina de corte profissional dourada, recarregável por USB. Lâmina de aço inoxidável com cabeça cerâmica Sharp, lâmina ajustável, interruptor e display LED que mostra a carga da bateria. Acompanha 4 pentes-guia, escovinha de limpeza, óleo lubrificante e cabo USB.",o:{}}
+];
+// ======================
+var cart=[],sel={},q=1,step=1,F={},ship=0,pay="pix";
+var $=function(i){
+  return document.getElementById(i)
+};
+var R=function(v){
+  return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})
+};
+function toast(t){
+  var e=$("toast");
+  e.textContent=t;
+  e.className="on";
+  setTimeout(function(){
+    e.className=""
+  },1800)
+}
+function show(h){
+  $("sh").innerHTML=h;
+  $("ov").className="ov on"
+}
+function closeOv(){
+  $("ov").className="ov"
+}
+function render(){
+  $("grid").innerHTML=PRODUCTS.map(function(p,i){
+    return '<div class="card" style="animation-delay:'+i*70+'ms" onclick="openP('+p.id+')"><div class="em">'+im(p,"cimg")+'</div><h3>'+p.n+'</h3><div class="price">'+R(p.p)+'</div></div>'
+  }).join("");
+  upd()
+}
+function upd(){
+  var n=cart.reduce(function(a,c){
+    return a+c.q
+  },0);
+  $("cnt").textContent=n;
+  var b=$("cb");
+  b.classList.remove("bump");
+  void b.offsetWidth;
+  b.classList.add("bump")
+}
+function im(p,c){
+  return p.img?'<img class="'+c+'" src="'+p.img+'" alt="'+p.n+'">':p.e
+}
+function pr(id){
+  return PRODUCTS.filter(function(p){
+    return p.id===id
+  })[0]
+}
+function openP(id){
+  var p=pr(id);
+  sel={};
+  q=1;
+  for(var k in p.o)sel[k]=p.o[k][0];
+  drawP(p)
+}
+function drawP(p){
+  var h='<button class="x" onclick="closeOv()">✕</button><div class="big">'+im(p,"pimg")+'</div><h2>'+p.n+'</h2><p>'+p.d+'</p><div class="price" style="font-size:22px">'+R(p.p)+'</div>';
+  for(var k in p.o){
+    h+='<label>'+k+'</label><div class="chips">'+p.o[k].map(function(v){
+      return '<button class="chip'+(sel[k]===v?' on':'')+'" onclick="pick(\''+p.id+'\',\''+k+'\',\''+v+'\')">'+v+'</button>'
+    }).join("")+'</div>'
+  }
+  h+='<div class="row" style="border:0"><span>Quantidade</span><span class="qty"><button onclick="qp(-1,'+p.id+')">−</button><b>'+q+'</b><button onclick="qp(1,'+p.id+')">+</button></span></div><button class="btn" onclick="add('+p.id+')">Adicionar · '+R(p.p*q)+'</button>';
+  show(h)
+}
+function pick(id,k,v){
+  sel[k]=v;
+  drawP(pr(+id))
+}
+function qp(d,id){
+  q=Math.max(1,q+d);
+  drawP(pr(id))
+}
+function add(id){
+  var o=Object.keys(sel).map(function(k){
+    return sel[k]
+  }).join(" · "),key=id+o,f=cart.filter(function(c){
+    return c.key===key
+  })[0];
+  if(f)f.q+=q;
+  else cart.push({key:key,id:id,o:o,q:q});
+  upd();
+  closeOv();
+  toast("Adicionado ao carrinho ✓")
+}
+function total(){
+  return cart.reduce(function(a,c){
+    return a+pr(c.id).p*c.q
+  },0)
+}
+function openCart(){
+  step=1;
+  if(!cart.length){
+    show('<button class="x" onclick="closeOv()">✕</button><h2>Carrinho</h2><p>Seu carrinho está vazio. Toque em um produto para começar 🛍️</p><button class="btn" onclick="closeOv()">Ver produtos</button>');
+    return
+  }
+  var h='<button class="x" onclick="closeOv()">✕</button><h2>Seu carrinho</h2>'+cart.map(function(c,i){
+    var p=pr(c.id);return '<div class="row"><div><b>'+p.n+'</b><br><small>'+c.o+'</small><br><span class="price">'+R(p.p*c.q)+'</span></div><span class="qty"><button onclick="cq('+i+',-1)">−</button><b>'+c.q+'</b><button onclick="cq('+i+',1)">+</button></span></div>'
+  }).join("")+'<div class="tot"><span>Subtotal</span><span>'+R(total())+'</span></div><button class="btn" onclick="checkout()">Finalizar compra</button><button class="btn alt" onclick="closeOv()">Continuar comprando</button>';
+  show(h)
+}
+function cq(i,d){
+  cart[i].q+=d;
+  if(cart[i].q<1)cart.splice(i,1);
+  upd();
+  openCart()
+}
+function bar(){
+  return '<div class="steps"><i class="on"></i><i class="'+(step>1?'on':'')+'"></i><i class="'+(step>2?'on':'')+'"></i></div>'
+}
+function checkout(){
+  if(step===1){
+    var f=function(k){
+      return F[k]||""
+    };
+    show('<button class="x" onclick="openCart()">←</button><h2>Endereço de entrega</h2>'+bar()+'<label>Nome completo</label><input id="nome" value="'+f("nome")+'"><label>WhatsApp</label><input id="tel" inputmode="tel" value="'+f("tel")+'"><div class="two"><div><label>CEP</label><input id="cep" inputmode="numeric" value="'+f("cep")+'"></div><div><label>Número</label><input id="num" value="'+f("num")+'"></div></div><label>Rua</label><input id="rua" value="'+f("rua")+'"><div class="two"><div><label>Bairro</label><input id="bai" value="'+f("bai")+'"></div><div><label>Cidade/UF</label><input id="cid" value="'+f("cid")+'"></div></div><label>Complemento</label><input id="comp" value="'+f("comp")+'"><button class="btn" onclick="toStep2()">Continuar</button>')
+  }
+}
+function toStep2(){
+  var ids=["nome","tel","cep","num","rua","bai","cid","comp"];
+  ids.forEach(function(i){
+    F[i]=$(i).value.trim()
+  });
+  if(!F.nome||!F.tel||!F.cep||!F.num||!F.rua||!F.cid){
+    toast("Preencha os campos principais");
+    return
+  }
+  step=2;
+  payStep()
+}
+function payStep(){
+  var S=[["Padrão · 5 a 8 dias",0],["Expressa · 1 a 3 dias",24.9]],h='<button class="x" onclick="step=1;checkout()">←</button><h2>Entrega e pagamento</h2>'+bar()+'<label>Entrega</label>';
+  S.forEach(function(s){
+    h+='<div class="opt'+(ship===s[1]?' on':'')+'" onclick="ship='+s[1]+';payStep()"><span style="flex:1">'+s[0]+'</span><b>'+(s[1]?R(s[1]):'Grátis')+'</b></div>'
+  });
+  h+='<label>Pagamento</label><div class="opt'+(pay==="pix"?' on':'')+'" onclick="pay=\'pix\';payStep()"><span style="flex:1">⚡ Pix (aprovação na hora)</span></div><div class="opt'+(pay==="ent"?' on':'')+'" onclick="pay=\'ent\';payStep()"><span style="flex:1">🚚 Pagar na entrega</span></div><div class="tot"><span>Total</span><span>'+R(total()+ship)+'</span></div><button class="btn" onclick="confirmOrder()">Confirmar pedido</button>';
+  show(h)
+}
+function f2(i,v){
+  return i+String(v.length).padStart(2,"0")+v
+}
+function crc(s){
+  var c=65535,i,j;
+  for(i=0;i<s.length;i++){
+    c^=s.charCodeAt(i)<<8;
+    for(j=0;j<8;j++)c=c&32768?((c<<1)^4129)&65535:(c<<1)&65535
+  }
+  return c.toString(16).toUpperCase().padStart(4,"0")
+}
+function pixCode(v){
+  var s="000201"+f2("26",f2("00","br.gov.bcb.pix")+f2("01",PIX_KEY))+"52040000"+"5303986"+f2("54",v.toFixed(2))+"5802BR"+f2("59",PIX_NAME)+f2("60",PIX_CITY)+f2("62",f2("05","***"))+"6304";
+  return s+crc(s)
+}
+function confirmOrder(){
+  step=3;
+  var v=total()+ship;
+  if(pay==="ent"){
+    finish("Pedido confirmado!","Você paga "+R(v)+" na entrega.");
+    return
+  }
+  var c=pixCode(v);
+  show('<h2>Pague com Pix ⚡</h2>'+bar()+'<div class="pix"><p>Valor: <b>'+R(v)+'</b></p><div id="qr"></div><div class="code" id="pc">'+c+'</div><button class="btn" onclick="copyP()">Copiar código Pix</button><button class="btn alt" onclick="finish(\'Pagamento informado!\',\'Assim que o Pix for confirmado, enviamos seu pedido.\')">Já paguei</button></div>');
+  try{
+    new QRCode($("qr"),{text:c,width:180,height:180,correctLevel:QRCode.CorrectLevel.L})
+  }
+  catch(e){
+    $("qr").textContent="Use o código abaixo"
+  }
+}
+function copyP(){
+  var t=$("pc").textContent;
+  try{
+    navigator.clipboard.writeText(t).then(function(){
+      toast("Código copiado ✓")
+    },function(){
+      toast("Selecione e copie o código")
+    })
+  }
+  catch(e){
+    toast("Selecione e copie o código")
+  }
+}
+function finish(t,m){
+  show('<div class="done"><div class="big">🎉</div><h2>'+t+'</h2><p>'+m+'</p><p>Entrega para:<br><b>'+F.rua+', '+F.num+' · '+F.cid+'</b></p><button class="btn" onclick="cart=[];step=1;upd();closeOv()">Voltar à loja</button></div>')
+}
+document.addEventListener("DOMContentLoaded",render);
+</script>
+<script>
+// FOTO DO PRODUTO (nao precisa mexer nesta parte)
+var FOTO=[
+"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
